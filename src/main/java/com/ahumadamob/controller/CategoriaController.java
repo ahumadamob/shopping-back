@@ -2,6 +2,7 @@ package com.ahumadamob.controller;
 
 import com.ahumadamob.entity.Categoria;
 import com.ahumadamob.service.ICategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,7 @@ public class CategoriaController {
 
     private final ICategoriaService categoriaService;
 
+    @Autowired
     public CategoriaController(ICategoriaService categoriaService) {
         this.categoriaService = categoriaService;
     }

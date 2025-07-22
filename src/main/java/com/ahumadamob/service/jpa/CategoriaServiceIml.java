@@ -3,6 +3,7 @@ package com.ahumadamob.service.jpa;
 import com.ahumadamob.entity.Categoria;
 import com.ahumadamob.repository.CategoriaRepository;
 import com.ahumadamob.service.ICategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class CategoriaServiceIml implements ICategoriaService {
 
     private final CategoriaRepository categoriaRepository;
 
+    @Autowired
     public CategoriaServiceIml(CategoriaRepository categoriaRepository) {
         this.categoriaRepository = categoriaRepository;
     }
