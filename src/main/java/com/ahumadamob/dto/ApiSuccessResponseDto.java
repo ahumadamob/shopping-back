@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
- * Generic DTO for API responses.
+ * DTO used to wrap successful API responses.
  * @param <T> type of the data payload
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ApiResponse<T> {
+public class ApiSuccessResponseDto<T> {
 
     private String message;
     private T data;
