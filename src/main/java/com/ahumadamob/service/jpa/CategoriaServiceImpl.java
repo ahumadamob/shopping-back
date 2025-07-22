@@ -7,17 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
 @Service
-public class CategoriaServiceIml implements ICategoriaService {
-
-    private final CategoriaRepository categoriaRepository;
+public class CategoriaServiceImpl implements ICategoriaService {
 
     @Autowired
-    public CategoriaServiceIml(CategoriaRepository categoriaRepository) {
-        this.categoriaRepository = categoriaRepository;
-    }
+    private CategoriaRepository categoriaRepository;
 
     @Override
     public List<Categoria> findAll() {
@@ -25,12 +19,17 @@ public class CategoriaServiceIml implements ICategoriaService {
     }
 
     @Override
-    public Optional<Categoria> findById(Long id) {
-        return categoriaRepository.findById(id);
+    public Categoria findById(Long id) {
+        return categoriaRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Categoria save(Categoria categoria) {
+    public Categoria create(Categoria categoria) {
+        return categoriaRepository.save(categoria);
+    }
+
+    @Override
+    public Categoria update(Categoria categoria) {
         return categoriaRepository.save(categoria);
     }
 

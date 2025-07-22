@@ -14,12 +14,8 @@ import java.util.List;
 @RequestMapping("/categorias")
 public class CategoriaController {
 
-    private final ICategoriaService categoriaService;
-
     @Autowired
-    public CategoriaController(ICategoriaService categoriaService) {
-        this.categoriaService = categoriaService;
-    }
+    private ICategoriaService categoriaService;
 
     @GetMapping
     public List<Categoria> listar() {
@@ -28,31 +24,33 @@ public class CategoriaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> obtener(@PathVariable Long id) {
-        return categoriaService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Categoria categoria = categoriaService.findById(id);
+        if (categoria != null) {
+            return ResponseEntity.ok(categoria);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
     public ResponseEntity<Categoria> crear(@Validated @RequestBody Categoria categoria) {
-        Categoria creada = categoriaService.save(categoria);
+        Categoria creada = categoriaService.create(categoria);
         return new ResponseEntity<>(creada, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Categoria> actualizar(@PathVariable Long id, @Validated @RequestBody Categoria categoria) {
-        return categoriaService.findById(id)
-                .map(existente -> {
-                    existente.setNombre(categoria.getNombre());
-                    Categoria actualizada = categoriaService.save(existente);
-                    return ResponseEntity.ok(actualizada);
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Categoria existente = categoriaService.findById(id);
+        if (existente != null) {
+            existente.setNombre(categoria.getNombre());
+            Categoria actualizada = categoriaService.update(existente);
+            return ResponseEntity.ok(actualizada);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        if (categoriaService.findById(id).isPresent()) {
+        if (categoriaService.findById(id) != null) {
             categoriaService.deleteById(id);
             return ResponseEntity.noContent().build();
         }
