@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ApiErrorResponse {
+public class ApiErrorResponseDto {
 
     private String message;
     private LocalDateTime timestamp;
