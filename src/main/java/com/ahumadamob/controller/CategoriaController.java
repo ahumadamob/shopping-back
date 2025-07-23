@@ -2,6 +2,8 @@ package com.ahumadamob.controller;
 
 import com.ahumadamob.dto.ApiSuccessResponseDto;
 import com.ahumadamob.entity.Categoria;
+import com.ahumadamob.dto.CategoriaRequestDto;
+import com.ahumadamob.mapper.CategoriaMapper;
 import com.ahumadamob.service.ICategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +46,8 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiSuccessResponseDto<Categoria>> create(@Validated @RequestBody Categoria categoria) {
+    public ResponseEntity<ApiSuccessResponseDto<Categoria>> create(@Validated @RequestBody CategoriaRequestDto categoriaDto) {
+        Categoria categoria = CategoriaMapper.toEntity(categoriaDto);
         Categoria creada = categoriaService.create(categoria);
         ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
                 .message("Created")
@@ -55,11 +58,12 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiSuccessResponseDto<Categoria>> update(@PathVariable Long id, @Validated @RequestBody Categoria categoria) {
+    public ResponseEntity<ApiSuccessResponseDto<Categoria>> update(@PathVariable Long id, @Validated @RequestBody CategoriaRequestDto categoriaDto) {
         Categoria existente = categoriaService.findById(id);
         if (existente != null) {
-            existente.setNombre(categoria.getNombre());
-            Categoria actualizada = categoriaService.update(existente);
+            Categoria categoria = CategoriaMapper.toEntity(categoriaDto);
+            categoria.setId(id);
+            Categoria actualizada = categoriaService.update(categoria);
             ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
                     .message("Updated")
                     .data(actualizada)
