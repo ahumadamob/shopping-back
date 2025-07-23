@@ -20,6 +20,9 @@ public class CategoriaController {
     @Autowired
     private ICategoriaService categoriaService;
 
+    @Autowired
+    private CategoriaMapper categoriaMapper;
+
     @GetMapping
     public ResponseEntity<ApiSuccessResponseDto<List<Categoria>>> getAll() {
         List<Categoria> categorias = categoriaService.findAll();
@@ -34,20 +37,17 @@ public class CategoriaController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiSuccessResponseDto<Categoria>> getById(@PathVariable Long id) {
         Categoria categoria = categoriaService.findById(id);
-        if (categoria != null) {
-            ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
-                    .message("Success")
-                    .data(categoria)
-                    .timestamp(java.time.LocalDateTime.now())
-                    .build();
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.notFound().build();
+        ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
+                .message("Success")
+                .data(categoria)
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
     public ResponseEntity<ApiSuccessResponseDto<Categoria>> create(@Validated @RequestBody CategoriaRequestDto categoriaDto) {
-        Categoria categoria = CategoriaMapper.toEntity(categoriaDto);
+        Categoria categoria = categoriaMapper.toEntity(categoriaDto);
         Categoria creada = categoriaService.create(categoria);
         ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
                 .message("Created")
@@ -59,31 +59,26 @@ public class CategoriaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiSuccessResponseDto<Categoria>> update(@PathVariable Long id, @Validated @RequestBody CategoriaRequestDto categoriaDto) {
-        Categoria existente = categoriaService.findById(id);
-        if (existente != null) {
-            Categoria categoria = CategoriaMapper.toEntity(categoriaDto);
-            categoria.setId(id);
-            Categoria actualizada = categoriaService.update(categoria);
-            ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
-                    .message("Updated")
-                    .data(actualizada)
-                    .timestamp(java.time.LocalDateTime.now())
-                    .build();
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.notFound().build();
+        categoriaService.findById(id); // verify existence
+        Categoria categoria = categoriaMapper.toEntity(categoriaDto);
+        categoria.setId(id);
+        Categoria actualizada = categoriaService.update(categoria);
+        ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
+                .message("Updated")
+                .data(actualizada)
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiSuccessResponseDto<Void>> delete(@PathVariable Long id) {
-        if (categoriaService.findById(id) != null) {
-            categoriaService.deleteById(id);
-            ApiSuccessResponseDto<Void> response = ApiSuccessResponseDto.<Void>builder()
-                    .message("Deleted")
-                    .timestamp(java.time.LocalDateTime.now())
-                    .build();
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.notFound().build();
+        categoriaService.findById(id); // verify existence
+        categoriaService.deleteById(id);
+        ApiSuccessResponseDto<Void> response = ApiSuccessResponseDto.<Void>builder()
+                .message("Deleted")
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
     }
 }
