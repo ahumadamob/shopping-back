@@ -1,8 +1,9 @@
 package com.ahumadamob.controller;
 
 import com.ahumadamob.dto.ApiSuccessResponseDto;
-import com.ahumadamob.entity.Categoria;
 import com.ahumadamob.dto.CategoriaRequestDto;
+import com.ahumadamob.dto.CategoriaResponseDto;
+import com.ahumadamob.entity.Categoria;
 import com.ahumadamob.mapper.CategoriaMapper;
 import com.ahumadamob.service.ICategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,48 +25,54 @@ public class CategoriaController {
     private CategoriaMapper categoriaMapper;
 
     @GetMapping
-    public ResponseEntity<ApiSuccessResponseDto<List<Categoria>>> getAll() {
+    public ResponseEntity<ApiSuccessResponseDto<List<CategoriaResponseDto>>> getAll() {
         List<Categoria> categorias = categoriaService.findAll();
-        ApiSuccessResponseDto<List<Categoria>> response = ApiSuccessResponseDto.<List<Categoria>>builder()
+        List<CategoriaResponseDto> dtoList = categorias.stream()
+                .map(categoriaMapper::toResponseDto)
+                .toList();
+        ApiSuccessResponseDto<List<CategoriaResponseDto>> response = ApiSuccessResponseDto.<List<CategoriaResponseDto>>builder()
                 .message("Success")
-                .data(categorias)
+                .data(dtoList)
                 .timestamp(java.time.LocalDateTime.now())
                 .build();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiSuccessResponseDto<Categoria>> getById(@PathVariable Long id) {
+    public ResponseEntity<ApiSuccessResponseDto<CategoriaResponseDto>> getById(@PathVariable Long id) {
         Categoria categoria = categoriaService.findById(id);
-        ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
+        CategoriaResponseDto dto = categoriaMapper.toResponseDto(categoria);
+        ApiSuccessResponseDto<CategoriaResponseDto> response = ApiSuccessResponseDto.<CategoriaResponseDto>builder()
                 .message("Success")
-                .data(categoria)
+                .data(dto)
                 .timestamp(java.time.LocalDateTime.now())
                 .build();
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<ApiSuccessResponseDto<Categoria>> create(@Validated @RequestBody CategoriaRequestDto categoriaDto) {
+    public ResponseEntity<ApiSuccessResponseDto<CategoriaResponseDto>> create(@Validated @RequestBody CategoriaRequestDto categoriaDto) {
         Categoria categoria = categoriaMapper.toEntity(categoriaDto);
         Categoria creada = categoriaService.create(categoria);
-        ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
+        CategoriaResponseDto dto = categoriaMapper.toResponseDto(creada);
+        ApiSuccessResponseDto<CategoriaResponseDto> response = ApiSuccessResponseDto.<CategoriaResponseDto>builder()
                 .message("Created")
-                .data(creada)
+                .data(dto)
                 .timestamp(java.time.LocalDateTime.now())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiSuccessResponseDto<Categoria>> update(@PathVariable Long id, @Validated @RequestBody CategoriaRequestDto categoriaDto) {
+    public ResponseEntity<ApiSuccessResponseDto<CategoriaResponseDto>> update(@PathVariable Long id, @Validated @RequestBody CategoriaRequestDto categoriaDto) {
         categoriaService.findById(id); // verify existence
         Categoria categoria = categoriaMapper.toEntity(categoriaDto);
         categoria.setId(id);
         Categoria actualizada = categoriaService.update(categoria);
-        ApiSuccessResponseDto<Categoria> response = ApiSuccessResponseDto.<Categoria>builder()
+        CategoriaResponseDto dto = categoriaMapper.toResponseDto(actualizada);
+        ApiSuccessResponseDto<CategoriaResponseDto> response = ApiSuccessResponseDto.<CategoriaResponseDto>builder()
                 .message("Updated")
-                .data(actualizada)
+                .data(dto)
                 .timestamp(java.time.LocalDateTime.now())
                 .build();
         return ResponseEntity.ok(response);
