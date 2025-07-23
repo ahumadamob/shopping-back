@@ -38,12 +38,7 @@ public class CategoriaController {
     public ResponseEntity<ApiSuccessResponseDto<CategoriaResponseDto>> getById(@PathVariable Long id) {
         Categoria categoria = categoriaService.findById(id);
         CategoriaResponseDto dto = categoriaMapper.toResponseDto(categoria);
-        ApiSuccessResponseDto<CategoriaResponseDto> response = ApiSuccessResponseDto.<CategoriaResponseDto>builder()
-                .message("Success")
-                .data(dto)
-                .timestamp(java.time.LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
+        return ResponseUtils.ok(dto);
     }
 
     @PostMapping
