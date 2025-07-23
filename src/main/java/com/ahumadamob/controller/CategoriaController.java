@@ -3,6 +3,7 @@ package com.ahumadamob.controller;
 import com.ahumadamob.dto.ApiSuccessResponseDto;
 import com.ahumadamob.dto.CategoriaRequestDto;
 import com.ahumadamob.dto.CategoriaResponseDto;
+import com.ahumadamob.common.ResponseUtils;
 import com.ahumadamob.entity.Categoria;
 import com.ahumadamob.mapper.CategoriaMapper;
 import com.ahumadamob.service.ICategoriaService;
@@ -30,12 +31,7 @@ public class CategoriaController {
         List<CategoriaResponseDto> dtoList = categorias.stream()
                 .map(categoriaMapper::toResponseDto)
                 .toList();
-        ApiSuccessResponseDto<List<CategoriaResponseDto>> response = ApiSuccessResponseDto.<List<CategoriaResponseDto>>builder()
-                .message("Success")
-                .data(dtoList)
-                .timestamp(java.time.LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
+        return ResponseUtils.ok(dtoList);
     }
 
     @GetMapping("/{id}")
