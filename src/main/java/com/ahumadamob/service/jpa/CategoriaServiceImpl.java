@@ -1,7 +1,7 @@
 package com.ahumadamob.service.jpa;
 
 import com.ahumadamob.entity.Categoria;
-import com.ahumadamob.exception.CategoriaNotFoundException;
+import com.ahumadamob.exception.EntityNotFoundException;
 import com.ahumadamob.repository.CategoriaRepository;
 import com.ahumadamob.service.ICategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class CategoriaServiceImpl implements ICategoriaService {
     public Categoria findById(Long id) {
         return categoriaRepository
                 .findById(id)
-                .orElseThrow(() -> new CategoriaNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException("Categoria", id));
     }
 
     @Override

@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(CategoriaNotFoundException.class)
-    public ResponseEntity<ApiErrorResponseDto> handleCategoriaNotFound(CategoriaNotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleEntityNotFound(EntityNotFoundException ex) {
         ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .message(ex.getMessage())
                 .timestamp(LocalDateTime.now())
