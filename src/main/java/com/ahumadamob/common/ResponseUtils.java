@@ -46,4 +46,22 @@ public abstract class ResponseUtils {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    /**
+     * Wraps the given data in an {@link ApiSuccessResponseDto} with an
+     * "Updated" message and returns a 200 OK response.
+     *
+     * @param data the payload containing the updated resource
+     * @return ResponseEntity containing the standardized updated DTO
+     */
+    public static ResponseEntity<ApiSuccessResponseDto<com.ahumadamob.dto.CategoriaResponseDto>> updated(
+            com.ahumadamob.dto.CategoriaResponseDto data) {
+        ApiSuccessResponseDto<com.ahumadamob.dto.CategoriaResponseDto> response =
+                ApiSuccessResponseDto.<com.ahumadamob.dto.CategoriaResponseDto>builder()
+                        .message("Updated")
+                        .data(data)
+                        .timestamp(LocalDateTime.now())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
 }

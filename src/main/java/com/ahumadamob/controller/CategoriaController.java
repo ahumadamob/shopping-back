@@ -56,12 +56,7 @@ public class CategoriaController {
         categoria.setId(id);
         Categoria actualizada = categoriaService.update(categoria);
         CategoriaResponseDto dto = categoriaMapper.toResponseDto(actualizada);
-        ApiSuccessResponseDto<CategoriaResponseDto> response = ApiSuccessResponseDto.<CategoriaResponseDto>builder()
-                .message("Updated")
-                .data(dto)
-                .timestamp(java.time.LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
+        return ResponseUtils.updated(dto);
     }
 
     @DeleteMapping("/{id}")
