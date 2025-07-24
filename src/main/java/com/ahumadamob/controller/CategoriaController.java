@@ -63,10 +63,6 @@ public class CategoriaController {
     public ResponseEntity<ApiSuccessResponseDto<Void>> delete(@PathVariable Long id) {
         categoriaService.findById(id); // verify existence
         categoriaService.deleteById(id);
-        ApiSuccessResponseDto<Void> response = ApiSuccessResponseDto.<Void>builder()
-                .message("Deleted")
-                .timestamp(java.time.LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
+        return ResponseUtils.deleted();
     }
 }

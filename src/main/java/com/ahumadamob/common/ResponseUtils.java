@@ -64,4 +64,17 @@ public abstract class ResponseUtils {
                         .build();
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * Builds a "Deleted" response with no body and returns a 200 OK status.
+     *
+     * @return ResponseEntity containing the standardized deleted DTO
+     */
+    public static ResponseEntity<ApiSuccessResponseDto<Void>> deleted() {
+        ApiSuccessResponseDto<Void> response = ApiSuccessResponseDto.<Void>builder()
+                .message("Deleted")
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }
