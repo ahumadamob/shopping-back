@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
 
         ApiErrorResponseDto response = ApiErrorResponseDto.builder()
-                .message("Validation failed")
+                .message("Bad Request")
                 .timestamp(LocalDateTime.now())
                 .errors(errors)
                 .build();
