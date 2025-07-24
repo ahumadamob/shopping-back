@@ -1,6 +1,7 @@
 package com.ahumadamob.common;
 
 import com.ahumadamob.dto.ApiSuccessResponseDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
@@ -28,5 +29,21 @@ public abstract class ResponseUtils {
                 .timestamp(LocalDateTime.now())
                 .build();
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Wraps the given data in an {@link ApiSuccessResponseDto} and returns a 201 CREATED response.
+     *
+     * @param data the payload to include in the response
+     * @param <T>  the payload type
+     * @return ResponseEntity containing the standardized created DTO
+     */
+    public static <T> ResponseEntity<ApiSuccessResponseDto<T>> created(T data) {
+        ApiSuccessResponseDto<T> response = ApiSuccessResponseDto.<T>builder()
+                .message("Created")
+                .data(data)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

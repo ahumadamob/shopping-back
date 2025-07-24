@@ -46,12 +46,7 @@ public class CategoriaController {
         Categoria categoria = categoriaMapper.toEntity(categoriaDto);
         Categoria creada = categoriaService.create(categoria);
         CategoriaResponseDto dto = categoriaMapper.toResponseDto(creada);
-        ApiSuccessResponseDto<CategoriaResponseDto> response = ApiSuccessResponseDto.<CategoriaResponseDto>builder()
-                .message("Created")
-                .data(dto)
-                .timestamp(java.time.LocalDateTime.now())
-                .build();
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseUtils.created(dto);
     }
 
     @PutMapping("/{id}")
