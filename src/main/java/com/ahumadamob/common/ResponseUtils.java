@@ -1,6 +1,7 @@
 package com.ahumadamob.common;
 
 import com.ahumadamob.dto.ApiSuccessResponseDto;
+import com.ahumadamob.dto.CategoriaResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -54,14 +55,14 @@ public abstract class ResponseUtils {
      * @param data the payload containing the updated resource
      * @return ResponseEntity containing the standardized updated DTO
      */
-    public static ResponseEntity<ApiSuccessResponseDto<com.ahumadamob.dto.CategoriaResponseDto>> updated(
-            com.ahumadamob.dto.CategoriaResponseDto data) {
-        ApiSuccessResponseDto<com.ahumadamob.dto.CategoriaResponseDto> response =
-                ApiSuccessResponseDto.<com.ahumadamob.dto.CategoriaResponseDto>builder()
-                        .message("Updated")
-                        .data(data)
-                        .timestamp(LocalDateTime.now())
-                        .build();
+    public static ResponseEntity<ApiSuccessResponseDto<CategoriaResponseDto>> updated(
+            CategoriaResponseDto data) {
+        ApiSuccessResponseDto<CategoriaResponseDto> response = ApiSuccessResponseDto
+                .<CategoriaResponseDto>builder()
+                .message("Updated")
+                .data(data)
+                .timestamp(LocalDateTime.now())
+                .build();
         return ResponseEntity.ok(response);
     }
 
