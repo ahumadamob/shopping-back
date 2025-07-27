@@ -2,6 +2,7 @@ package com.ahumadamob.exception;
 
 import com.ahumadamob.dto.ApiErrorResponseDto;
 import com.ahumadamob.dto.ValidationError;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,6 +33,23 @@ public class GlobalExceptionHandler {
                         .message(fieldError.getDefaultMessage())
                         .build())
                 .collect(Collectors.toList());
+
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
+                .message("Bad Request")
+                .timestamp(LocalDateTime.now())
+                .errors(errors)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CircularReferenceException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleCircularReference(
+            CircularReferenceException ex) {
+        var errors = List.of(
+                ValidationError.builder()
+                        .field("parentId")
+                        .message(ex.getMessage())
+                        .build());
 
         ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .message("Bad Request")

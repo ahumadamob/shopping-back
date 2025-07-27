@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class CategoriaResponseDto {
     private Long id;
     private String nombre;
+    private String path;
     private CategoriaResponseDto parent;
 }

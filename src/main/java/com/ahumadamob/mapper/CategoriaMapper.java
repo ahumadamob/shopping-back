@@ -37,6 +37,16 @@ public class CategoriaMapper {
         dto.setId(categoria.getId());
         dto.setNombre(categoria.getNombre());
         dto.setParent(toResponseDto(categoria.getParent()));
+        dto.setPath(buildPath(categoria));
         return dto;
+    }
+
+    private String buildPath(Categoria categoria) {
+        if (categoria == null || categoria.getParent() == null) {
+            return "";
+        }
+        String parentPath = buildPath(categoria.getParent());
+        String parentName = categoria.getParent().getNombre();
+        return parentPath.isEmpty() ? parentName : parentPath + " > " + parentName;
     }
 }

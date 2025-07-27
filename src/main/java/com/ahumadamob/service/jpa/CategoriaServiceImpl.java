@@ -2,6 +2,7 @@ package com.ahumadamob.service.jpa;
 
 import com.ahumadamob.entity.Categoria;
 import com.ahumadamob.exception.EntityNotFoundException;
+import com.ahumadamob.exception.CircularReferenceException;
 import com.ahumadamob.repository.CategoriaRepository;
 import com.ahumadamob.service.ICategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,29 @@ public class CategoriaServiceImpl implements ICategoriaService {
 
     @Override
     public Categoria create(Categoria categoria) {
+        validateNoCircularReference(categoria);
         return categoriaRepository.save(categoria);
     }
 
     @Override
     public Categoria update(Categoria categoria) {
+        validateNoCircularReference(categoria);
         return categoriaRepository.save(categoria);
     }
 
     @Override
     public void deleteById(Long id) {
         categoriaRepository.deleteById(id);
+    }
+
+    private void validateNoCircularReference(Categoria categoria) {
+        Categoria parent = categoria.getParent();
+        Long id = categoria.getId();
+        while (parent != null) {
+            if (id != null && parent.getId() != null && parent.getId().equals(id)) {
+                throw new CircularReferenceException("El padre no puede ser un descendiente de la categoria");
+            }
+            parent = parent.getParent();
+        }
     }
 }
