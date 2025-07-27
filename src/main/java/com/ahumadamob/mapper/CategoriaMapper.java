@@ -42,10 +42,11 @@ public class CategoriaMapper {
     }
 
     private String buildPath(Categoria categoria) {
-        if (categoria == null) {
+        if (categoria == null || categoria.getParent() == null) {
             return "";
         }
         String parentPath = buildPath(categoria.getParent());
-        return parentPath.isEmpty() ? categoria.getNombre() : parentPath + " > " + categoria.getNombre();
+        String parentName = categoria.getParent().getNombre();
+        return parentPath.isEmpty() ? parentName : parentPath + " > " + parentName;
     }
 }
