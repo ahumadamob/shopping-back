@@ -1,8 +1,8 @@
 package com.ahumadamob.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +18,5 @@ public class ProductoRequestDto {
     @Size(max = 64)
     private String nombre;
 
-    @NotNull
-    private Long categoriaId;
+    private List<Long> categoriaIds;
 }
