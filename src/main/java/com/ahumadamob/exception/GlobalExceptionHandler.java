@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import java.util.stream.Collectors;
 
@@ -57,5 +58,15 @@ public class GlobalExceptionHandler {
                 .errors(errors)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleSqlIntegrityViolation(
+            SQLIntegrityConstraintViolationException ex) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }
