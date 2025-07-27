@@ -49,7 +49,7 @@ public class CategoriaServiceImpl implements ICategoriaService {
         Long id = categoria.getId();
         while (parent != null) {
             if (id != null && parent.getId() != null && parent.getId().equals(id)) {
-                throw new CircularReferenceException("Parent cannot be a descendant of the category");
+                throw new CircularReferenceException("El padre no puede ser un descendiente de la categoria");
             }
             parent = parent.getParent();
         }
