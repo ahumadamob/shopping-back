@@ -2,8 +2,10 @@ package com.ahumadamob.mapper;
 
 import com.ahumadamob.dto.ProductoRequestDto;
 import com.ahumadamob.dto.ProductoResponseDto;
+import com.ahumadamob.dto.CategoriaResponseDto;
 import com.ahumadamob.entity.Producto;
 import com.ahumadamob.entity.Categoria;
+import java.util.List;
 import com.ahumadamob.service.ICategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,8 +25,12 @@ public class ProductoMapper {
         }
         Producto producto = new Producto();
         producto.setNombre(dto.getNombre());
-        Categoria categoria = categoriaService.findById(dto.getCategoriaId());
-        producto.setCategoria(categoria);
+        if (dto.getCategoriaIds() != null) {
+            List<Categoria> categorias = dto.getCategoriaIds().stream()
+                    .map(categoriaService::findById)
+                    .toList();
+            producto.setCategorias(categorias);
+        }
         return producto;
     }
 
@@ -35,7 +41,10 @@ public class ProductoMapper {
         ProductoResponseDto dto = new ProductoResponseDto();
         dto.setId(producto.getId());
         dto.setNombre(producto.getNombre());
-        dto.setCategoria(categoriaMapper.toResponseDto(producto.getCategoria()));
+        List<CategoriaResponseDto> categorias = producto.getCategorias().stream()
+                .map(categoriaMapper::toResponseDto)
+                .toList();
+        dto.setCategorias(categorias);
         return dto;
     }
 }
