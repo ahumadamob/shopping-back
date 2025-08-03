@@ -34,8 +34,9 @@ public class ProductoServiceImpl implements IProductoService {
 
     @Override
     public Producto create(Producto producto) {
-        if (producto.getPictureGallery() != null && producto.getPictureGallery().getId() != null) {
-            PictureGallery gallery = pictureGalleryService.findById(producto.getPictureGallery().getId());
+        Long galleryId = producto.getPictureGallery() != null ? producto.getPictureGallery().getId() : null;
+        if (galleryId != null) {
+            PictureGallery gallery = pictureGalleryService.findById(galleryId);
             producto.setPictureGallery(gallery);
         }
         return productoRepository.save(producto);
@@ -43,8 +44,9 @@ public class ProductoServiceImpl implements IProductoService {
 
     @Override
     public Producto update(Producto producto) {
-        if (producto.getPictureGallery() != null && producto.getPictureGallery().getId() != null) {
-            PictureGallery gallery = pictureGalleryService.findById(producto.getPictureGallery().getId());
+        Long galleryId = producto.getPictureGallery() != null ? producto.getPictureGallery().getId() : null;
+        if (galleryId != null) {
+            PictureGallery gallery = pictureGalleryService.findById(galleryId);
             producto.setPictureGallery(gallery);
         }
         return productoRepository.save(producto);
