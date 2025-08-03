@@ -10,10 +10,17 @@ import com.ahumadamob.service.IPictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -41,6 +48,26 @@ public class PictureController {
         Picture picture = pictureService.findById(id);
         PictureResponseDto dto = pictureMapper.toResponseDto(picture);
         return ResponseUtils.ok(dto);
+    }
+
+    @GetMapping("/{id}/file")
+    public ResponseEntity<?> getFile(@PathVariable Long id) {
+        Picture picture = pictureService.findById(id);
+        Path filePath = Paths.get(picture.getPath());
+        try {
+            if (Files.exists(filePath)) {
+                byte[] bytes = Files.readAllBytes(filePath);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(picture.getMimeType()))
+                        .contentLength(bytes.length)
+                        .body(bytes);
+            }
+        } catch (IOException ignored) {
+            // Fallback to redirect
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(picture.getUrl()));
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
