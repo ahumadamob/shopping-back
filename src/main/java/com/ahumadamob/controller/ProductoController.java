@@ -42,7 +42,8 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiSuccessResponseDto<ProductoResponseDto>> create(@Validated @RequestBody ProductoRequestDto productoDto) {
+    public ResponseEntity<ApiSuccessResponseDto<ProductoResponseDto>> create(
+            @Validated @RequestBody ProductoRequestDto productoDto) {
         Producto producto = productoMapper.toEntity(productoDto);
         Producto creado = productoService.create(producto);
         ProductoResponseDto dto = productoMapper.toResponseDto(creado);
@@ -50,7 +51,9 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiSuccessResponseDto<ProductoResponseDto>> update(@PathVariable Long id, @Validated @RequestBody ProductoRequestDto productoDto) {
+    public ResponseEntity<ApiSuccessResponseDto<ProductoResponseDto>> update(
+            @PathVariable Long id,
+            @Validated @RequestBody ProductoRequestDto productoDto) {
         productoService.findById(id); // verify existence
         Producto producto = productoMapper.toEntity(productoDto);
         producto.setId(id);
