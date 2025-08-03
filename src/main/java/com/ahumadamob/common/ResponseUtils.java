@@ -1,10 +1,6 @@
 package com.ahumadamob.common;
 
 import com.ahumadamob.dto.ApiSuccessResponseDto;
-import com.ahumadamob.dto.CategoriaResponseDto;
-import com.ahumadamob.dto.ProductoResponseDto;
-import com.ahumadamob.dto.PictureResponseDto;
-import com.ahumadamob.dto.PictureGalleryResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -56,66 +52,11 @@ public abstract class ResponseUtils {
      * "Updated" message and returns a 200 OK response.
      *
      * @param data the payload containing the updated resource
+     * @param <T>  the payload type
      * @return ResponseEntity containing the standardized updated DTO
      */
-    public static ResponseEntity<ApiSuccessResponseDto<CategoriaResponseDto>> updated(
-            CategoriaResponseDto data) {
-        ApiSuccessResponseDto<CategoriaResponseDto> response = ApiSuccessResponseDto
-                .<CategoriaResponseDto>builder()
-                .message("Updated")
-                .data(data)
-                .timestamp(LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Wraps the given data in an {@link ApiSuccessResponseDto} with an
-     * "Updated" message and returns a 200 OK response.
-     *
-     * @param data the payload containing the updated resource
-     * @return ResponseEntity containing the standardized updated DTO
-     */
-    public static ResponseEntity<ApiSuccessResponseDto<ProductoResponseDto>> updated(
-            ProductoResponseDto data) {
-        ApiSuccessResponseDto<ProductoResponseDto> response = ApiSuccessResponseDto
-                .<ProductoResponseDto>builder()
-                .message("Updated")
-                .data(data)
-                .timestamp(LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Wraps the given data in an {@link ApiSuccessResponseDto} with an
-     * "Updated" message and returns a 200 OK response.
-     *
-     * @param data the payload containing the updated resource
-     * @return ResponseEntity containing the standardized updated DTO
-     */
-    public static ResponseEntity<ApiSuccessResponseDto<PictureResponseDto>> updated(
-            PictureResponseDto data) {
-        ApiSuccessResponseDto<PictureResponseDto> response = ApiSuccessResponseDto
-                .<PictureResponseDto>builder()
-                .message("Updated")
-                .data(data)
-                .timestamp(LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Wraps the given data in an {@link ApiSuccessResponseDto} with an
-     * "Updated" message and returns a 200 OK response.
-     *
-     * @param data the payload containing the updated resource
-     * @return ResponseEntity containing the standardized updated DTO
-     */
-    public static ResponseEntity<ApiSuccessResponseDto<PictureGalleryResponseDto>> updated(
-            PictureGalleryResponseDto data) {
-        ApiSuccessResponseDto<PictureGalleryResponseDto> response = ApiSuccessResponseDto
-                .<PictureGalleryResponseDto>builder()
+    public static <T> ResponseEntity<ApiSuccessResponseDto<T>> updated(T data) {
+        ApiSuccessResponseDto<T> response = ApiSuccessResponseDto.<T>builder()
                 .message("Updated")
                 .data(data)
                 .timestamp(LocalDateTime.now())
