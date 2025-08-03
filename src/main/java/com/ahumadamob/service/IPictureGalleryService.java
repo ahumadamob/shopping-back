@@ -7,7 +7,7 @@ import java.util.List;
 public interface IPictureGalleryService {
     List<PictureGallery> findAll();
     PictureGallery findById(Long id);
-    PictureGallery create(PictureGallery gallery);
+    PictureGallery create(String description, List<Long> pictureIds);
     PictureGallery update(PictureGallery gallery);
     void deleteById(Long id);
 }

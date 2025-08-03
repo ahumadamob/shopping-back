@@ -43,8 +43,7 @@ public class PictureGalleryController {
 
     @PostMapping
     public ResponseEntity<ApiSuccessResponseDto<PictureGalleryResponseDto>> create(@Validated @RequestBody PictureGalleryRequestDto galleryDto) {
-        PictureGallery gallery = pictureGalleryMapper.toEntity(galleryDto);
-        PictureGallery created = pictureGalleryService.create(gallery);
+        PictureGallery created = pictureGalleryService.create(galleryDto.getDescription(), galleryDto.getPictureIds());
         PictureGalleryResponseDto dto = pictureGalleryMapper.toResponseDto(created);
         return ResponseUtils.created(dto);
     }

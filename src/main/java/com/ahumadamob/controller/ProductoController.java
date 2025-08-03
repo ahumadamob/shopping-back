@@ -44,6 +44,7 @@ public class ProductoController {
     @PostMapping
     public ResponseEntity<ApiSuccessResponseDto<ProductoResponseDto>> create(
             @Validated @RequestBody ProductoRequestDto productoDto) {
+        // pictureGalleryId (if provided) is resolved in ProductoMapper
         Producto producto = productoMapper.toEntity(productoDto);
         Producto creado = productoService.create(producto);
         ProductoResponseDto dto = productoMapper.toResponseDto(creado);
@@ -55,6 +56,7 @@ public class ProductoController {
             @PathVariable Long id,
             @Validated @RequestBody ProductoRequestDto productoDto) {
         productoService.findById(id); // verify existence
+        // pictureGalleryId (if provided) is resolved in ProductoMapper
         Producto producto = productoMapper.toEntity(productoDto);
         producto.setId(id);
         Producto actualizado = productoService.update(producto);
