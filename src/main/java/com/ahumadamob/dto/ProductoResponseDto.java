@@ -14,4 +14,5 @@ public class ProductoResponseDto {
     private Long id;
     private String nombre;
     private List<CategoriaResponseDto> categorias;
+    private PictureGalleryResponseDto pictureGallery;
 }

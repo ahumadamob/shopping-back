@@ -5,8 +5,10 @@ import com.ahumadamob.dto.ProductoResponseDto;
 import com.ahumadamob.dto.CategoriaResponseDto;
 import com.ahumadamob.entity.Producto;
 import com.ahumadamob.entity.Categoria;
+import com.ahumadamob.entity.PictureGallery;
 import java.util.List;
 import com.ahumadamob.service.ICategoriaService;
+import com.ahumadamob.service.IPictureGalleryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,12 @@ public class ProductoMapper {
     @Autowired
     private CategoriaMapper categoriaMapper;
 
+    @Autowired
+    private IPictureGalleryService pictureGalleryService;
+
+    @Autowired
+    private PictureGalleryMapper pictureGalleryMapper;
+
     public Producto toEntity(ProductoRequestDto dto) {
         if (dto == null) {
             return null;
@@ -30,6 +38,10 @@ public class ProductoMapper {
                     .map(categoriaService::findById)
                     .toList();
             producto.setCategorias(categorias);
+        }
+        if (dto.getPictureGalleryId() != null) {
+            PictureGallery gallery = pictureGalleryService.findById(dto.getPictureGalleryId());
+            producto.setPictureGallery(gallery);
         }
         return producto;
     }
@@ -45,6 +57,9 @@ public class ProductoMapper {
                 .map(categoriaMapper::toResponseDto)
                 .toList();
         dto.setCategorias(categorias);
+        if (producto.getPictureGallery() != null) {
+            dto.setPictureGallery(pictureGalleryMapper.toResponseDto(producto.getPictureGallery()));
+        }
         return dto;
     }
 }

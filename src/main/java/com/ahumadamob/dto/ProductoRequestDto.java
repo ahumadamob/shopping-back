@@ -19,4 +19,6 @@ public class ProductoRequestDto {
     private String nombre;
 
     private List<Long> categoriaIds;
+
+    private Long pictureGalleryId;
 }

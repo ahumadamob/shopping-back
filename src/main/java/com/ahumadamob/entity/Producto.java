@@ -5,8 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import com.ahumadamob.entity.Categoria;
+import com.ahumadamob.entity.PictureGallery;
+
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.validation.constraints.NotBlank;
@@ -32,4 +35,8 @@ public class Producto extends BaseEntity {
             joinColumns = @JoinColumn(name = "producto_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private List<Categoria> categorias = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "picture_gallery_id")
+    private PictureGallery pictureGallery;
 }
