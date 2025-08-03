@@ -5,15 +5,26 @@ import com.ahumadamob.exception.EntityNotFoundException;
 import com.ahumadamob.repository.PictureRepository;
 import com.ahumadamob.service.IPictureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 public class PictureServiceImpl implements IPictureService {
 
     @Autowired
     private PictureRepository pictureRepository;
+
+    @Value("${uploads.dir}")
+    private String uploadDir;
 
     @Override
     public List<Picture> findAll() {
@@ -29,6 +40,44 @@ public class PictureServiceImpl implements IPictureService {
 
     @Override
     public Picture create(Picture picture) {
+        return pictureRepository.save(picture);
+    }
+
+    @Override
+    public Picture create(MultipartFile file, Integer order, Boolean cover) {
+        String originalFilename = file.getOriginalFilename();
+        long size = file.getSize();
+        String contentType = file.getContentType();
+
+        String extension = "";
+        if (originalFilename != null && originalFilename.contains(".")) {
+            extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+        }
+
+        String uniqueName = UUID.randomUUID().toString() + extension;
+
+        try {
+            Path directory = Paths.get(uploadDir);
+            Files.createDirectories(directory);
+            Path filePath = directory.resolve(uniqueName);
+            file.transferTo(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to store file", e);
+        }
+
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/" + uploadDir + "/")
+                .path(uniqueName)
+                .toUriString();
+
+        Picture picture = new Picture();
+        picture.setUrl(url);
+        picture.setFileName(uniqueName);
+        picture.setMimeType(contentType);
+        picture.setSize(size);
+        picture.setOrder(order);
+        picture.setCover(cover != null ? cover : false);
+
         return pictureRepository.save(picture);
     }
 
