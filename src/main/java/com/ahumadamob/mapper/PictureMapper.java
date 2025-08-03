@@ -14,6 +14,7 @@ public class PictureMapper {
         }
         Picture picture = new Picture();
         picture.setUrl(dto.getUrl());
+        picture.setPath(dto.getPath());
         picture.setFileName(dto.getFileName());
         picture.setMimeType(dto.getMimeType());
         picture.setSize(dto.getSize());
@@ -29,6 +30,7 @@ public class PictureMapper {
         PictureResponseDto dto = new PictureResponseDto();
         dto.setId(picture.getId());
         dto.setUrl(picture.getUrl());
+        dto.setPath(picture.getPath());
         dto.setFileName(picture.getFileName());
         dto.setMimeType(picture.getMimeType());
         dto.setSize(picture.getSize());
