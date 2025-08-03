@@ -8,9 +8,11 @@ import com.ahumadamob.entity.Picture;
 import com.ahumadamob.mapper.PictureMapper;
 import com.ahumadamob.service.IPictureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,6 +41,16 @@ public class PictureController {
         Picture picture = pictureService.findById(id);
         PictureResponseDto dto = pictureMapper.toResponseDto(picture);
         return ResponseUtils.ok(dto);
+    }
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiSuccessResponseDto<PictureResponseDto>> upload(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "order", required = false) Integer order,
+            @RequestParam(value = "cover", required = false) Boolean cover) {
+        Picture created = pictureService.create(file, order, cover);
+        PictureResponseDto dto = pictureMapper.toResponseDto(created);
+        return ResponseUtils.created(dto);
     }
 
     @PostMapping
