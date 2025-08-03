@@ -31,6 +31,10 @@ public class Picture extends BaseEntity {
     @URL
     private String url;
 
+    @Column(name = "path", nullable = false)
+    @NotBlank
+    private String path;
+
     @Column(name = "file_name", nullable = false, length = 255)
     @NotBlank
     @Size(max = 255)

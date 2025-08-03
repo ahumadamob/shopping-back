@@ -23,6 +23,9 @@ public class PictureRequestDto {
     private String url;
 
     @NotBlank
+    private String path;
+
+    @NotBlank
     @Size(max = 255)
     private String fileName;
 

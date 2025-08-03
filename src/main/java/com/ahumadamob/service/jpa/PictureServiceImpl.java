@@ -56,10 +56,11 @@ public class PictureServiceImpl implements IPictureService {
 
         String uniqueName = UUID.randomUUID().toString() + extension;
 
+        Path filePath;
         try {
             Path directory = Paths.get(uploadDir);
             Files.createDirectories(directory);
-            Path filePath = directory.resolve(uniqueName);
+            filePath = directory.resolve(uniqueName);
             file.transferTo(filePath);
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file", e);
@@ -72,6 +73,7 @@ public class PictureServiceImpl implements IPictureService {
 
         Picture picture = new Picture();
         picture.setUrl(url);
+        picture.setPath(filePath.toString());
         picture.setFileName(uniqueName);
         picture.setMimeType(contentType);
         picture.setSize(size);

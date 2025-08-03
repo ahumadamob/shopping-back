@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class PictureResponseDto {
     private Long id;
     private String url;
+    private String path;
     private String fileName;
     private String mimeType;
     private Long size;
