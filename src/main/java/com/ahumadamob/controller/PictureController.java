@@ -88,6 +88,10 @@ public class PictureController {
         return ResponseUtils.created(dto);
     }
 
+    /**
+     * Replaces the binary content of an existing picture. Additional fields such as
+     * order or cover flag can also be supplied through multipart form-data.
+     */
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiSuccessResponseDto<PictureResponseDto>> update(
             @PathVariable Long id,
