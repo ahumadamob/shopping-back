@@ -45,9 +45,8 @@ public class PictureServiceImpl implements IPictureService {
 
     @Override
     public Picture create(MultipartFile file, Integer order, Boolean cover) {
-        Picture picture = storeFile(file);
-        picture.setOrder(order);
-        picture.setCover(cover != null ? cover : false);
+        Picture picture = new Picture();
+        populatePicture(picture, file, order, cover != null ? cover : false);
         return pictureRepository.save(picture);
     }
 
@@ -69,20 +68,25 @@ public class PictureServiceImpl implements IPictureService {
             }
         }
 
-        Picture fileData = storeFile(file);
-        existing.setUrl(fileData.getUrl());
-        existing.setPath(fileData.getPath());
-        existing.setFileName(fileData.getFileName());
-        existing.setMimeType(fileData.getMimeType());
-        existing.setSize(fileData.getSize());
-        if (order != null) {
-            existing.setOrder(order);
-        }
-        if (cover != null) {
-            existing.setCover(cover);
-        }
+        populatePicture(
+                existing,
+                file,
+                order != null ? order : existing.getOrder(),
+                cover != null ? cover : existing.getCover()
+        );
 
         return pictureRepository.save(existing);
+    }
+
+    private void populatePicture(Picture target, MultipartFile file, Integer order, Boolean cover) {
+        Picture fileData = storeFile(file);
+        target.setUrl(fileData.getUrl());
+        target.setPath(fileData.getPath());
+        target.setFileName(fileData.getFileName());
+        target.setMimeType(fileData.getMimeType());
+        target.setSize(fileData.getSize());
+        target.setOrder(order);
+        target.setCover(cover);
     }
 
     private Picture storeFile(MultipartFile file) {
