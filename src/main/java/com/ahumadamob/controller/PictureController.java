@@ -88,12 +88,13 @@ public class PictureController {
         return ResponseUtils.created(dto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiSuccessResponseDto<PictureResponseDto>> update(@PathVariable Long id, @Validated @RequestBody PictureRequestDto pictureDto) {
-        pictureService.findById(id); // verify existence
-        Picture picture = pictureMapper.toEntity(pictureDto);
-        picture.setId(id);
-        Picture updated = pictureService.update(picture);
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiSuccessResponseDto<PictureResponseDto>> update(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "order", required = false) Integer order,
+            @RequestParam(value = "cover", required = false) Boolean cover) {
+        Picture updated = pictureService.update(id, file, order, cover);
         PictureResponseDto dto = pictureMapper.toResponseDto(updated);
         return ResponseUtils.updated(dto);
     }

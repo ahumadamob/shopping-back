@@ -11,5 +11,6 @@ public interface IPictureService {
     Picture create(Picture picture);
     Picture create(MultipartFile file, Integer order, Boolean cover);
     Picture update(Picture picture);
+    Picture update(Long id, MultipartFile file, Integer order, Boolean cover);
     void deleteById(Long id);
 }
