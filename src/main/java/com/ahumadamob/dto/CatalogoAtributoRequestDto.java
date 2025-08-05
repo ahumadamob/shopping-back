@@ -1,6 +1,6 @@
 package com.ahumadamob.dto;
 
-import com.ahumadamob.common.TipoDato;
+import com.ahumadamob.common.DataType;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,7 @@ public class CatalogoAtributoRequestDto {
     private String nombre;
 
     @NotNull
-    private TipoDato tipoDato;
+    private DataType dataType;
 
     @Size(max = 32)
     private String unidad;

@@ -1,6 +1,6 @@
 package com.ahumadamob.dto;
 
-import com.ahumadamob.common.TipoDato;
+import com.ahumadamob.common.DataType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class CatalogoAtributoResponseDto {
     private Long id;
     private String nombre;
-    private TipoDato tipoDato;
+    private DataType dataType;
     private String unidad;
     private String descripcion;
     private Boolean activo;

@@ -1,6 +1,6 @@
 package com.ahumadamob.entity;
 
-import com.ahumadamob.common.TipoDato;
+import com.ahumadamob.common.DataType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -20,9 +20,9 @@ public class CatalogoAtributo extends BaseEntity {
     private String nombre;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_dato", nullable = false, length = 20)
+    @Column(name = "data_type", nullable = false, length = 20)
     @NotNull
-    private TipoDato tipoDato;
+    private DataType dataType;
 
     @Column(name = "unidad", length = 32)
     @Size(max = 32)

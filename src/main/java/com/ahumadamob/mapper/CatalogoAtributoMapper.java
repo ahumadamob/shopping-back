@@ -14,7 +14,7 @@ public class CatalogoAtributoMapper {
         }
         CatalogoAtributo entity = new CatalogoAtributo();
         entity.setNombre(dto.getNombre());
-        entity.setTipoDato(dto.getTipoDato());
+        entity.setDataType(dto.getDataType());
         entity.setUnidad(dto.getUnidad());
         entity.setDescripcion(dto.getDescripcion());
         entity.setActivo(dto.getActivo());
@@ -28,7 +28,7 @@ public class CatalogoAtributoMapper {
         CatalogoAtributoResponseDto dto = new CatalogoAtributoResponseDto();
         dto.setId(entity.getId());
         dto.setNombre(entity.getNombre());
-        dto.setTipoDato(entity.getTipoDato());
+        dto.setDataType(entity.getDataType());
         dto.setUnidad(entity.getUnidad());
         dto.setDescripcion(entity.getDescripcion());
         dto.setActivo(entity.getActivo());
