@@ -1,5 +1,6 @@
 package com.ahumadamob.service.jpa;
 
+import com.ahumadamob.common.DataTypeUtils;
 import com.ahumadamob.entity.ProductoAtributo;
 import com.ahumadamob.entity.Producto;
 import com.ahumadamob.entity.CatalogoAtributo;
@@ -48,6 +49,7 @@ public class ProductoAtributoServiceImpl implements IProductoAtributoService {
             CatalogoAtributo catalogo = catalogoAtributoService.findById(catalogoId);
             productoAtributo.setCatalogoAtributo(catalogo);
         }
+        normalizeValor(productoAtributo);
         return productoAtributoRepository.save(productoAtributo);
     }
 
@@ -63,11 +65,20 @@ public class ProductoAtributoServiceImpl implements IProductoAtributoService {
             CatalogoAtributo catalogo = catalogoAtributoService.findById(catalogoId);
             productoAtributo.setCatalogoAtributo(catalogo);
         }
+        normalizeValor(productoAtributo);
         return productoAtributoRepository.save(productoAtributo);
     }
 
     @Override
     public void deleteById(Long id) {
         productoAtributoRepository.deleteById(id);
+    }
+
+    private void normalizeValor(ProductoAtributo productoAtributo) {
+        if (productoAtributo.getCatalogoAtributo() != null) {
+            var tipo = productoAtributo.getCatalogoAtributo().getDataType();
+            var valorNormalizado = DataTypeUtils.normalize(productoAtributo.getValor(), tipo);
+            productoAtributo.setValor(valorNormalizado);
+        }
     }
 }

@@ -24,7 +24,7 @@ public class ProductoAtributo extends BaseEntity {
     private CatalogoAtributo catalogoAtributo;
 
     @Column(name = "valor", nullable = false, length = 255)
-    @NotBlank
+    @NotNull
     @Size(max = 255)
     private String valor;
 }

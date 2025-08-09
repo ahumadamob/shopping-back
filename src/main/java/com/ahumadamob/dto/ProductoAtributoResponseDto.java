@@ -13,5 +13,5 @@ public class ProductoAtributoResponseDto {
     private Long id;
     private Long productoId;
     private CatalogoAtributoResponseDto catalogoAtributo;
-    private String valor;
+    private Object valor;
 }
