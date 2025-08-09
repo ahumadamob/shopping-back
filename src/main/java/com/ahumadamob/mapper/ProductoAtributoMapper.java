@@ -1,5 +1,6 @@
 package com.ahumadamob.mapper;
 
+import com.ahumadamob.common.DataTypeUtils;
 import com.ahumadamob.dto.ProductoAtributoRequestDto;
 import com.ahumadamob.dto.ProductoAtributoResponseDto;
 import com.ahumadamob.entity.ProductoAtributo;
@@ -43,7 +44,7 @@ public class ProductoAtributoMapper {
         dto.setId(entity.getId());
         dto.setProductoId(entity.getProducto().getId());
         dto.setCatalogoAtributo(catalogoAtributoMapper.toResponseDto(entity.getCatalogoAtributo()));
-        dto.setValor(entity.getValor());
+        dto.setValor(DataTypeUtils.parse(entity.getValor(), entity.getCatalogoAtributo().getDataType()));
         return dto;
     }
 }
