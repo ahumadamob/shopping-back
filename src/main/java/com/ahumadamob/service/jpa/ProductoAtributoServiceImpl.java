@@ -1,5 +1,6 @@
 package com.ahumadamob.service.jpa;
 
+import com.ahumadamob.common.DataType;
 import com.ahumadamob.common.DataTypeUtils;
 import com.ahumadamob.entity.ProductoAtributo;
 import com.ahumadamob.entity.Producto;
@@ -76,8 +77,18 @@ public class ProductoAtributoServiceImpl implements IProductoAtributoService {
 
     private void normalizeValor(ProductoAtributo productoAtributo) {
         if (productoAtributo.getCatalogoAtributo() != null) {
-            var tipo = productoAtributo.getCatalogoAtributo().getDataType();
+            var catalogo = productoAtributo.getCatalogoAtributo();
+            var tipo = catalogo.getDataType();
             var valorNormalizado = DataTypeUtils.normalize(productoAtributo.getValor(), tipo);
+            if (tipo == DataType.NUMERIC) {
+                Double valor = Double.valueOf(valorNormalizado);
+                if (catalogo.getValorMin() != null && valor < catalogo.getValorMin()) {
+                    throw new IllegalArgumentException("valor por debajo de valorMin");
+                }
+                if (catalogo.getValorMax() != null && valor > catalogo.getValorMax()) {
+                    throw new IllegalArgumentException("valor por encima de valorMax");
+                }
+            }
             productoAtributo.setValor(valorNormalizado);
         }
     }

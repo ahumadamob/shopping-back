@@ -16,5 +16,8 @@ public class CatalogoAtributoResponseDto {
     private DataType dataType;
     private String unidad;
     private String descripcion;
+    private Integer orden;
+    private Double valorMin;
+    private Double valorMax;
     private Boolean activo;
 }
