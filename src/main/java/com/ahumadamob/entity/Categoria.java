@@ -19,7 +19,7 @@ import jakarta.validation.constraints.Size;
 @NoArgsConstructor
 public class Categoria extends BaseEntity {
 
-    @Column(name = "nombre", nullable = false, length = 64)
+    @Column(name = "nombre", nullable = false, length = 64, unique = true)
     @NotBlank
     @Size(max = 64)
     private String nombre;

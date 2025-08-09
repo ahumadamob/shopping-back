@@ -28,16 +28,28 @@ public class CatalogoAtributoServiceImpl implements ICatalogoAtributoService {
 
     @Override
     public CatalogoAtributo create(CatalogoAtributo catalogoAtributo) {
+        validate(catalogoAtributo);
         return catalogoAtributoRepository.save(catalogoAtributo);
     }
 
     @Override
     public CatalogoAtributo update(CatalogoAtributo catalogoAtributo) {
+        validate(catalogoAtributo);
         return catalogoAtributoRepository.save(catalogoAtributo);
     }
 
     @Override
     public void deleteById(Long id) {
         catalogoAtributoRepository.deleteById(id);
+    }
+
+    private void validate(CatalogoAtributo catalogoAtributo) {
+        if (catalogoAtributo.getOrden() != null && catalogoAtributo.getOrden() < 0) {
+            throw new IllegalArgumentException("orden debe ser un valor positivo");
+        }
+        if (catalogoAtributo.getValorMin() != null && catalogoAtributo.getValorMax() != null
+                && catalogoAtributo.getValorMin() > catalogoAtributo.getValorMax()) {
+            throw new IllegalArgumentException("valorMin no puede ser mayor que valorMax");
+        }
     }
 }

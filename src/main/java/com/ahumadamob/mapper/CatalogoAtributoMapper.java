@@ -17,6 +17,9 @@ public class CatalogoAtributoMapper {
         entity.setDataType(dto.getDataType());
         entity.setUnidad(dto.getUnidad());
         entity.setDescripcion(dto.getDescripcion());
+        entity.setOrden(dto.getOrden());
+        entity.setValorMin(dto.getValorMin());
+        entity.setValorMax(dto.getValorMax());
         entity.setActivo(dto.getActivo());
         return entity;
     }
@@ -31,6 +34,9 @@ public class CatalogoAtributoMapper {
         dto.setDataType(entity.getDataType());
         dto.setUnidad(entity.getUnidad());
         dto.setDescripcion(entity.getDescripcion());
+        dto.setOrden(entity.getOrden());
+        dto.setValorMin(entity.getValorMin());
+        dto.setValorMax(entity.getValorMax());
         dto.setActivo(entity.getActivo());
         return dto;
     }

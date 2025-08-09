@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Producto extends BaseEntity {
 
-    @Column(name = "nombre", nullable = false, length = 64)
+    @Column(name = "nombre", nullable = false, length = 64, unique = true)
     @NotBlank
     @Size(max = 64)
     private String nombre;

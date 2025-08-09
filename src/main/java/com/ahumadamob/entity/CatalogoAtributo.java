@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CatalogoAtributo extends BaseEntity {
 
-    @Column(name = "nombre", nullable = false, length = 64)
+    @Column(name = "nombre", nullable = false, length = 64, unique = true)
     @NotBlank
     @Size(max = 64)
     private String nombre;
@@ -31,6 +31,16 @@ public class CatalogoAtributo extends BaseEntity {
     @Column(name = "descripcion", length = 255)
     @Size(max = 255)
     private String descripcion;
+
+    @Column(name = "orden")
+    @Min(0)
+    private Integer orden;
+
+    @Column(name = "valor_min")
+    private Double valorMin;
+
+    @Column(name = "valor_max")
+    private Double valorMax;
 
     @Column(name = "activo", nullable = false)
     @NotNull

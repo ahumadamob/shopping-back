@@ -26,6 +26,18 @@ public class CatalogoAtributoRequestDto {
     @Size(max = 255)
     private String descripcion;
 
+    @PositiveOrZero
+    private Integer orden;
+
+    private Double valorMin;
+
+    private Double valorMax;
+
     @NotNull
     private Boolean activo;
+
+    @AssertTrue(message = "valorMin debe ser menor o igual que valorMax")
+    public boolean isValidRange() {
+        return valorMin == null || valorMax == null || valorMin <= valorMax;
+    }
 }
